@@ -334,13 +334,23 @@ function App() {
     setPendingTxHash("");
 
     try {
-      const provider = new ethers.BrowserProvider(walletProvider);
-      const signer = await provider.getSigner();
       const cleanAddress = String(contractAddress).trim().toLowerCase();
-      const contract = new ethers.Contract(cleanAddress, CONTRACT_ABI, signer);
       
-      const tx = await contract.createNote(inputText);
-      const txHash = tx.hash;
+      // Encode transaction data to bypass ethers transaction response signature parsing
+      const iface = new ethers.Interface(CONTRACT_ABI);
+      const data = iface.encodeFunctionData("createNote", [inputText]);
+      
+      const txParams = {
+        from: walletAddress,
+        to: cleanAddress,
+        data: data,
+      };
+      
+      const txHash = await walletProvider.request({
+        method: "eth_sendTransaction",
+        params: [txParams],
+      });
+
       setPendingTxHash(txHash);
       setMiningMessage("Broadcasting transaction to Quranium validator network...");
       

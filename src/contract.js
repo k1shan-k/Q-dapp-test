@@ -8,7 +8,7 @@ export const CONTRACT_ABI = [
 ];
 
 // Default contract address for the deployed Notes contract on Quranium Testnet
-export const DEFAULT_CONTRACT_ADDRESS = "0x74723db4934c7a8bcdf77d1db7306d8fa0f27915";
+export const DEFAULT_CONTRACT_ADDRESS = "0xa7dcc8a0a0358039fd31e8bd419497ed8088f048";
 
 // Quranium Testnet RPC details
 export const QURANIUM_TESTNET = {
